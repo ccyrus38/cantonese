@@ -3,18 +3,339 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💖 給我最愛的傻B驊容：專屬廣東話學習小天地 💖</title>
-    <link rel="stylesheet" href="style.css">
+    <title>💖 給我最愛的驊容：專屬廣東話學習小天地 💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffecf1 0%, #fff7f9 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #e91e63;
+            margin: 20px 0 30px;
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .intro {
+            background: linear-gradient(to right, #fce4ec, #f8bbd0);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .intro::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #e91e63, #f48fb1);
+        }
+        
+        .intro p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .intro p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .intro strong {
+            color: #c2185b;
+            font-size: 1.2rem;
+        }
+        
+        .tips {
+            background-color: #fff9f9;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #ffcdd2;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .tips h3 {
+            text-align: center;
+            color: #e91e63;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+        }
+        
+        .tips ul {
+            list-style-type: none;
+            padding: 0 15px;
+        }
+        
+        .tips li {
+            margin-bottom: 20px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .tips li::before {
+            content: "❤️";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 1.2rem;
+        }
+        
+        .tips strong {
+            color: #d81b60;
+        }
+        
+        .tips p {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            text-align: center;
+            font-weight: bold;
+            color: #c2185b;
+        }
+        
+        .fab-menu-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #e91e63, #f48fb1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.5);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .fab-menu-button:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.7);
+        }
+        
+        .fab-menu {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            z-index: 999;
+            display: none;
+            transition: all 0.4s ease;
+            transform-origin: bottom right;
+        }
+        
+        .fab-menu ul {
+            list-style: none;
+        }
+        
+        .fab-menu li a {
+            display: block;
+            padding: 15px 25px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            border-bottom: 1px solid #f5f5f5;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        
+        .fab-menu li:last-child a {
+            border-bottom: none;
+        }
+        
+        .fab-menu li a:hover {
+            background-color: #fce4ec;
+            color: #e91e63;
+            padding-left: 30px;
+        }
+        
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23f48fb1" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+            background-size: contain;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .intro, .tips {
+                padding: 20px 15px;
+            }
+            
+            .fab-menu-button {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .fab-menu {
+                bottom: 80px;
+                right: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1>💖 給我最愛的傻B驊容：專屬廣東話學習小天地 💖</h1>
-    <div class="intro"><p><strong>To my dearest love,</strong></p><p>BB，呢個係我專登為你整嘅廣東話學習頁面，希望你鍾意呢份小小嘅心意！</p><p>我知道你一直都想學多啲廣東話，方便我哋溝通，亦可以了解我多啲。所以我整理咗啲我覺得你會有興趣、又好實用嘅嘢，特別係好多好食嘅嘢！以後我哋去香港，你就可以自己嗌嘢食啦！</p><p>請點擊右下角嘅 📖 按鈕開始我哋嘅學習之旅啦！</p></div>
-    <div class="tips"><h3>💖 給妳的學習小貼士 💖</h3><ul><li><strong>唔怕醜，大膽講：</strong>BB，學語言最緊要夠膽開口，就算講錯咗都唔緊要，我會聽得明，而且我覺得妳講廣東話嘅樣一定好得意！</li><li><strong>由食嘢開始：</strong>下次我哋一齊，你可以試下用廣東話嗌「一個菠蘿油，一杯凍奶茶，唔該！」，成功感會好大㗎！</li><li><strong>我係你嘅專屬字典：</strong>無論幾時，有咩字唔識、有咩句唔明，即刻問我！我好樂意做你嘅「人肉翻譯機」。</li><li><strong>一齊睇戲聽歌：</strong>我哋可以一齊睇多啲香港電影、聽多啲廣東歌，喺娛樂入面學習，會快好多！</li></ul><p><strong>親愛的，見到你為咗我哋嘅將來而努力，我真係好感動，亦都好驕傲。</strong></p><p><strong>慢慢嚟，我會一直陪住你。Love you forever! ❤️</strong></p></div>
-</div>
-<div class="fab-menu-button" id="fabButton">📖</div>
-<div class="fab-menu" id="fabMenu"><ul><li><a href="index.html">💖 主頁</a></li><li><a href="page1_basic.html">🗣️ 基本對答</a></li><li><a href="page2_love.html">🥰 愛嘅蜜語</a></li><li><a href="page3_food.html">🍜 美食篇</a></li><li><a href="page4_daily.html">🛍️ 日常生活</a></li><li><a href="page5_scenario.html">💬 情境對話</a></li><li><a href="page6_slang.html">😎 地道口語</a></li></ul></div>
-<script src="script.js" defer></script>
+    <div class="floating-hearts" id="heartsContainer"></div>
+    
+    <div class="container">
+        <h1>💖 給我最愛的驊容：專屬廣東話學習小天地 💖</h1>
+        
+        <div class="intro">
+            <p><strong>To my dearest love,</strong></p>
+            <p>寶貝，這個是我特別為你做的廣東話學習頁面，希望妳喜歡這份小小的心意！</p>
+            <p>我知道妳一直都想多學一些廣東話，方便我們溝通，也可以多了解我。所以我整理了一些我覺得妳會有興趣、又很實用的內容，特別是很多好吃的東西！以後我們去香港，妳就可以自己點東西吃啦！</p>
+            <p>請點擊右下角的 📖 按鈕開始我們的學習之旅吧！</p>
+        </div>
+        
+        <div class="tips">
+            <h3>💖 給妳的學習小貼士 💖</h3>
+            <ul>
+                <li><strong>不要害羞，大膽說：</strong>寶貝，學語言最重要的是敢開口，就算說錯了也沒關係，我會聽得懂，而且我覺得妳講廣東話的樣子一定很可愛！</li>
+                <li><strong>從吃東西開始：</strong>下次我們一起，妳可以試試用廣東話點「一個菠蘿油，一杯凍奶茶，謝謝！」，成就感會很大的！</li>
+                <li><strong>我是妳的專屬字典：</strong>無論何時，有什麼字不認識、有什麼句子不明白，馬上問我！我很樂意做妳的「人肉翻譯機」。</li>
+                <li><strong>一起看戲聽歌：</strong>我們可以一起多看些香港電影、多聽些廣東歌，在娛樂中學習，會快很多！</li>
+            </ul>
+            <p><strong>親愛的，看到妳為了我們的將來而努力，我真的很感動，也很驕傲。</strong></p>
+            <p><strong>慢慢來，我會一直陪著妳。Love you forever! ❤️</strong></p>
+        </div>
+    </div>
+    
+    <div class="fab-menu-button" id="fabButton">📖</div>
+    <div class="fab-menu" id="fabMenu">
+        <ul>
+            <li><a href="index.html">💖 主頁</a></li>
+            <li><a href="page1_basic.html">🗣️ 基本對答</a></li>
+            <li><a href="page2_love.html">🥰 愛嘅蜜語</a></li>
+            <li><a href="page3_food.html">🍜 美食篇</a></li>
+            <li><a href="page4_daily.html">🛍️ 日常生活</a></li>
+            <li><a href="page5_scenario.html">💬 情境對話</a></li>
+            <li><a href="page6_slang.html">😎 地道口語</a></li>
+        </ul>
+    </div>
+    
+    <script>
+        // 浮動按鈕功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const fabButton = document.getElementById('fabButton');
+            const fabMenu = document.getElementById('fabMenu');
+            
+            fabButton.addEventListener('click', function() {
+                if (fabMenu.style.display === 'block') {
+                    fabMenu.style.display = 'none';
+                    fabMenu.style.transform = 'scale(0)';
+                } else {
+                    fabMenu.style.display = 'block';
+                    setTimeout(() => {
+                        fabMenu.style.transform = 'scale(1)';
+                    }, 10);
+                }
+            });
+            
+            // 點擊外部關閉菜單
+            document.addEventListener('click', function(event) {
+                if (!fabButton.contains(event.target) && !fabMenu.contains(event.target)) {
+                    fabMenu.style.display = 'none';
+                    fabMenu.style.transform = 'scale(0)';
+                }
+            });
+            
+            // 創建漂浮愛心
+            function createHearts() {
+                const container = document.getElementById('heartsContainer');
+                const heartCount = 20;
+                
+                for (let i = 0; i < heartCount; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    
+                    // 隨機位置
+                    const leftPos = Math.random() * 100;
+                    heart.style.left = `${leftPos}%`;
+                    
+                    // 隨機大小
+                    const size = 10 + Math.random() * 20;
+                    heart.style.width = `${size}px`;
+                    heart.style.height = `${size}px`;
+                    
+                    // 隨機動畫延遲和持續時間
+                    const delay = Math.random() * 15;
+                    const duration = 10 + Math.random() * 20;
+                    heart.style.animationDelay = `${delay}s`;
+                    heart.style.animationDuration = `${duration}s`;
+                    
+                    container.appendChild(heart);
+                }
+            }
+            
+            createHearts();
+        });
+    </script>
 </body>
 </html>
-
