@@ -1,76 +1,53 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Audio Player Logic ---
+    let audioPlayer = null; // Create a single, reusable audio player
+
+    function playAudio(audioSrc) {
+        if (!audioPlayer) {
+            audioPlayer = new Audio();
+        }
+        
+        // Stop any currently playing audio
+        if (!audioPlayer.paused) {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+        }
+
+        audioPlayer.src = audioSrc;
+        audioPlayer.play().catch(error => {
+            console.error("Audio playback error:", error);
+            // This might happen if user hasn't interacted with the page yet.
+            // Modern browsers block autoplay until a user clicks/taps.
+        });
+    }
+
+    // --- Menu Logic ---
     const fabButton = document.getElementById('fabButton');
     const fabMenu = document.getElementById('fabMenu');
-    const synth = window.speechSynthesis;
-    let cantoneseVoice = null;
-    let voicesLoaded = false;
 
-    function loadVoices() {
-        const voices = synth.getVoices();
-        if (voices.length > 0) {
-            cantoneseVoice = voices.find(v => v.lang === 'zh-HK') ||
-                             voices.find(v => v.lang === 'zh-Hant-HK') ||
-                             voices.find(v => v.name.includes('Cantonese')) ||
-                             voices.find(v => v.lang.startsWith('zh-Hant'));
-            voicesLoaded = true;
-            console.log(cantoneseVoice ? `Cantonese voice loaded: ${cantoneseVoice.name}` : "Cantonese voice not found, will use lang code.");
-        }
+    if (fabButton && fabMenu) {
+        fabButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            fabMenu.classList.toggle('active');
+        });
+
+        window.addEventListener('click', () => {
+            if (fabMenu.classList.contains('active')) {
+                fabMenu.classList.remove('active');
+            }
+        });
+
+        fabMenu.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
     }
 
-    if (synth.onvoiceschanged !== undefined) {
-        synth.onvoiceschanged = loadVoices;
-    }
-    loadVoices();
-
-    function speak(text) {
-        if (!synth) {
-            alert('抱歉，你的瀏覽器唔支援語音功能。');
-            return;
-        }
-
-        if (synth.speaking) {
-            synth.cancel();
-        }
-
-        const utterance = new SpeechSynthesisUtterance(text);
-        
-        if (cantoneseVoice) {
-            utterance.voice = cantoneseVoice;
-        } else {
-            utterance.lang = 'zh-HK';
-        }
-        
-        utterance.rate = 0.9;
-        utterance.pitch = 1.0;
-        
-        synth.speak(utterance);
-    }
-    
-    fabButton.addEventListener('click', (event) => {
-        event.stopPropagation();
-        fabMenu.classList.toggle('active');
-    });
-
-    window.addEventListener('click', () => {
-        if (fabMenu.classList.contains('active')) {
-            fabMenu.classList.remove('active');
-        }
-    });
-
-    fabMenu.addEventListener('click', (event) => {
-        event.stopPropagation();
-    });
-
+    // --- Global Event Handler for Audio Icons ---
     document.body.addEventListener('click', (event) => {
         if (event.target.matches('.audio-icon')) {
-            // This is the user gesture that "unlocks" speech synthesis on mobile
-            if (synth.paused) {
-                synth.resume();
-            }
-            
-            const textToSpeak = event.target.getAttribute('data-text');
-            if (textToSpeak) {
-                speak(textToSpeak);
+            const audioSrc = event.target.getAttribute('data-audio-src');
+            if (audioSrc) {
+                playAudio(audioSrc);
             }
         }
     });
